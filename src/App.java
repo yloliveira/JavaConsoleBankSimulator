@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        List<BankAgency> bankAgencies = new ArrayList<BankAgency>();
+        List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
+
         try {
             System.out.println("########## BANCO JAVANDER ##########");
             System.out.println("___________________________________________");
@@ -20,22 +25,27 @@ public class App {
 
                     System.err.println("Por favor, digite o seu nome!");
                     String firstName = scanner.next();
-
                     System.err.println("Por favor, digite o seu sobrenome!");
                     String lastname = scanner.next();
+                    System.err.println("Por favor, digite o seu CPF! (apenas números)");
+                    String documentId = scanner.next();
 
-                    System.err.println("Por favor, digite o número da Agência!");
-                    String agencyId = scanner.next();
-
-                    System.err.println("Por favor, digite o número da conta!");
-                    String accountNumber = scanner.next();
-
-                    System.err.println("Por favor, digite o saldo!");
+                    System.err.println("Por favor, digite o valor do seu depósito inicial!");
                     Double balance = scanner.nextDouble();
 
-                    Customer customer = new Customer("12345678909", firstName, lastname);
-                    BankAgency agency = new BankAgency(agencyId, "Javander", "Rua x, 123 - São Paulo");
+                    Customer customer = new Customer(documentId, firstName, lastname);
+
+                    String agencyId = String.format("%" + 4 + "s", String.valueOf(bankAgencies.size() + 1)).replace(' ',
+                            '0');
+                    String accountNumber = String.format("%" + 4 + "s", String.valueOf(bankAccounts.size() + 1))
+                            .replace(' ', '0');
+
+                    BankAgency agency = new BankAgency(agencyId, "Rua x, 123 - São Paulo");
+                    bankAgencies.add(agency);
+
                     BankAccount bankAccount = new BankAccount(customer, agency, accountNumber, balance);
+                    bankAccounts.add(bankAccount);
+
                     bankAccount.greeting();
 
                     break;
@@ -43,9 +53,8 @@ public class App {
                     System.out.println("Obrigado por usar o banco Javander");
                     break;
             }
-
         } catch (Exception e) {
-            System.err.println("Something went wrong...");
+            System.err.println(e);
         } finally {
             scanner.close();
         }
